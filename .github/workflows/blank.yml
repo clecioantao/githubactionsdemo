@@ -45,4 +45,4 @@ jobs:
 
       - name: Gradle Build
         run: |
-          gradle build
+          bash gradlew build
