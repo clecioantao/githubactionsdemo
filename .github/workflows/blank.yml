@@ -34,3 +34,15 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+      - name: Get the files
+        run: |
+          ls -al  
+
+      - name: Check Java Version
+        run: |
+          java -version
+
+      - name: Gradle Build
+        run: |
+          gradle build
