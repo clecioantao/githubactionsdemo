@@ -60,6 +60,11 @@ jobs:
 
       - name: docker login
         run: docker login -u ${{ secrets.dockerhubusername }} -p ${{ secrets.dockerhubpassword }}
+
+      - name: docker push
+        run: docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0
+
+
       
 
       
