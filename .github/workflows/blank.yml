@@ -64,6 +64,11 @@ jobs:
         run: |
           docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:latest
 
+      - name:  Run AZ Command
+        run: |
+          az account show
+          az group list
+
 
       
 
