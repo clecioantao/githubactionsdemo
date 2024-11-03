@@ -46,3 +46,10 @@ jobs:
       - name: Gradle Build
         run: |
           bash gradlew build
+
+      - name: doccker version
+        run: |
+          docker --version
+          docker
+
+      
