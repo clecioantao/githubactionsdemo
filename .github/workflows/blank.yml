@@ -1,18 +1,13 @@
 name: Continuos Integration
 
 on:
-
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-
   workflow_dispatch:
 
-
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -25,29 +20,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-
-      - name: running a custom scrip
+      - name: running a custom script
         run: |
           ls -al
-
-      # - name: Log in with the Azure CLI
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-      # - uses: azure/aks-set-context@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-      #     cluster-name: githubactionsaks
-      #     resource-group: githubRGACTION
-      # - run: |
-      #     kubectl create namespace githubrg
-      # - run: |
-      #     kubeclt apply -f pod.yaml
-
-      # - name:  Run AZ Command
-      #   run: |
-      #     az account show
-      #     az group list
 
   get-the-multilinetask:
     needs: 
@@ -65,11 +40,17 @@ jobs:
         run: |
           java -version
 
+      - name: Install Gradle
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gradle
+
       - name: Gradle Build
         run: |
-          bash gradlew build
+          chmod +x ./gradlew
+          ./gradlew build
 
-      - name: doccker version
+      - name: Docker version
         run: |
           docker --version
           docker
