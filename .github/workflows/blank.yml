@@ -38,6 +38,8 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           cluster-name: githubactionsaks
           resource-group: githubRGACTION
+      - run: |
+          kubectl create namespace githubrg
 
       - name:  Run AZ Command
         run: |
