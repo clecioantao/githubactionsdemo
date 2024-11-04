@@ -58,18 +58,18 @@ jobs:
       - name: Docker Login
         run: echo "${{ secrets.dockerhubpassword }}" | docker login -u ${{ secrets.dockerhubusername }} --password-stdin
 
-      # - name: Verify dockerfile location
-      #   run: |
-      #     if [ -f ./dockerfile ]; then
-      #       echo "dockerfile found in the root directory."
-      #     else
-      #       echo "dockerfile not found in the root directory."
-      #       exit 1
-      #     fi
+      - name: Verify dockerfile location
+        run: |
+          if [ -f ./Dockerfile ]; then
+            echo "Dockerfile found in the root directory."
+          else
+            echo "Dockerfile not found in the root directory."
+            exit 1
+          fi
           
       - name: Docker image Tag
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -f Dockerfile -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
+          docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
           docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG}
