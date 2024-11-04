@@ -40,6 +40,7 @@ jobs:
           resource-group: githubRGACTION
       - run: |
           kubectl create namespace githubrg
+          kubeclt apply -f pod.yaml
 
       - name:  Run AZ Command
         run: |
