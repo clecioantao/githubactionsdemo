@@ -21,7 +21,7 @@ jobs:
       - name: 'Install pre reqs'
         run: |
           curl -SL "https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip" -o terraform.zip
-          unzip terraform.zip
+          unzip -o terraform.zip
           mv terraform /usr/local/bin/
           terraform --version
           rm terraform.zip
@@ -33,7 +33,7 @@ jobs:
           mv tflint /usr/local/bin/
           tflint --version
 
-          
+
 
 
 
