@@ -39,9 +39,14 @@ jobs:
           cluster-name: githubactionsaks
           resource-group: githubRGACTION
       - run: |
-          kubectl create namespace githubrg
+          kubectl apply -f - <<EOF
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: githubrg
+          EOF
       - run: |
-          kubeclt apply -f pod.yaml
+          kubectl apply -f pod.yaml
 
       - name:  Run AZ Command
         run: |
@@ -82,8 +87,6 @@ jobs:
           docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
           docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG}
 
-
-
       # - name: Docker Build
       #   run: |
       #     docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:latest .
@@ -91,10 +94,3 @@ jobs:
       # - name: Docker Push
       #   run: |
       #     docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:latest
-
-
-
-
-      
-
-      
