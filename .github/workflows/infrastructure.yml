@@ -21,8 +21,9 @@ jobs:
       - name: 'Install pre reqs'
         run: |
           curl -SL "https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip" -o terraform.zip
-          unzip -o terraform.zip
-          mv terraform /usr/local/bin/
+          rm -f /usr/local/bin/terraform # Remove any existing terraform binary in /usr/local/bin
+          unzip -o terraform.zip -d /tmp # Extract to a temporary directory
+          sudo mv /tmp/terraform /usr/local/bin/
           terraform --version
           rm -rf terraform.zip
 
