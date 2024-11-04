@@ -22,6 +22,7 @@ jobs:
         run: echo Hello, world!
 
   get-the-files:
+    needs: build
     runs-on: ubuntu-latest
     steps:
 
