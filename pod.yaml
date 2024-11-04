@@ -2,12 +2,13 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: demo-kotlinapp
+  namespace: githubrg
   labels:
     role: webapp
 spec:
   containers:
     - name: web
-      image: clecio/demo-kotlin2.0
+      image: docker pull clecio/demo-kotlin2.0:510e3235436aa9b263d486d62d5dd6076d9bfe8b
       ports:
         - containerPort: 80
           name: web
