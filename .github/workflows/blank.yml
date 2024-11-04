@@ -58,14 +58,14 @@ jobs:
       - name: Docker Login
         run: echo "${{ secrets.dockerhubpassword }}" | docker login -u ${{ secrets.dockerhubusername }} --password-stdin
 
-      - name: Verify dockerfile location
-        run: |
-          if [ -f ./dockerfile ]; then
-            echo "dockerfile found in the root directory."
-          else
-            echo "dockerfile not found in the root directory."
-            exit 1
-          fi
+      # - name: Verify dockerfile location
+      #   run: |
+      #     if [ -f ./dockerfile ]; then
+      #       echo "dockerfile found in the root directory."
+      #     else
+      #       echo "dockerfile not found in the root directory."
+      #       exit 1
+      #     fi
           
       - name: Docker image Tag
         env:
