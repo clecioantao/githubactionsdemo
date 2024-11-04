@@ -1,42 +1,54 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Continuos Integration
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
+
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
 
   get-the-files:
     runs-on: ubuntu-latest
     steps:
-      - name: Get the files
-        run: |
-          ls -al  
 
-  get-the-multiline:
+      - name: running a custom scrip
+        run: |
+          ls -al
+
+      # - name: Log in with the Azure CLI
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # - uses: azure/aks-set-context@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      #     cluster-name: githubactionsaks
+      #     resource-group: githubRGACTION
+      # - run: |
+      #     kubectl create namespace githubrg
+      # - run: |
+      #     kubeclt apply -f pod.yaml
+
+      # - name:  Run AZ Command
+      #   run: |
+      #     az account show
+      #     az group list
+
+  get-the-multilinetask:
     runs-on: ubuntu-latest
     steps:
       - name: Run a multi-line script
@@ -49,52 +61,22 @@ jobs:
         run: |
           java -version
 
-  build-java:
-    runs-on: ubuntu-latest
-    steps:
       - name: Gradle Build
         run: |
           bash gradlew build
-  
-      - name: Docker version
+
+      - name: doccker version
         run: |
           docker --version
           docker
           docker images -a  
-  
+
       - name: Docker Login
         run: echo "${{ secrets.dockerhubpassword }}" | docker login -u ${{ secrets.dockerhubusername }} --password-stdin
-  
+
       - name: Docker image Tag
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
           docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG}
-
-  login-azure-aks-manifests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log in with the Azure CLI
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - uses: azure/aks-set-context@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          cluster-name: githubactionsaks
-          resource-group: githubRGACTION
-      - run: |
-          kubectl apply -f - <<EOF
-          apiVersion: v1
-          kind: Namespace
-          metadata:
-            name: githubrg
-          EOF
-      - run: |
-          kubectl apply -f pod.yaml
-
-      - name: Run AZ Command
-        run: |
-          az account show
-          az group list
