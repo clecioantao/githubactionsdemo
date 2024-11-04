@@ -33,6 +33,11 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          cluster-name: githubactionaks
+          resource-group: githubRGACTION
 
       - name:  Run AZ Command
         run: |
@@ -72,6 +77,8 @@ jobs:
         run: |
           docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
           docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG}
+
+
 
       # - name: Docker Build
       #   run: |
