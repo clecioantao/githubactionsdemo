@@ -24,7 +24,7 @@ jobs:
           unzip -o terraform.zip
           mv terraform /usr/local/bin/
           terraform --version
-          rm terraform.zip
+          rm -rf terraform.zip
 
       - name: 'Install TFLint'
         run: |
