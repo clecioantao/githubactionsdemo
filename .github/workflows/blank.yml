@@ -21,23 +21,30 @@ jobs:
           echo "Contents of the current directory:"
           ls -al
 
-      - name: Set permissions on Dockerfile
+      - name: Install Gradle
         run: |
-          chmod +r Dockerfile
+          sudo apt-get update
+          sudo apt-get install -y gradle
 
-      - name: Verify Dockerfile location
+      - name: Gradle Build
         run: |
-          echo "Checking if Dockerfile exists in root directory:"
-          if [ -f $(pwd)/Dockerfile ]; then
-            echo "Dockerfile found in the root directory."
-          else
-            echo "Dockerfile not found in the root directory."
-            exit 1
-          fi
+          gradle build
+
+      - name: Verificar arquivos gerados pelo Gradle
+        run: |
+          ls -al build/libs
+
+      - name: Docker version
+        run: |
+          docker --version
+          docker images -a  
+
+      - name: Docker Login
+        run: echo "${{ secrets.dockerhubpassword }}" | docker login -u ${{ secrets.dockerhubusername }} --password-stdin
 
       - name: Docker image Tag
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -f $(pwd)/Dockerfile -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
+          docker build -f Dockerfile -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
           docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG}
