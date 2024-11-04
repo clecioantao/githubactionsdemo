@@ -32,53 +32,49 @@ jobs:
   get-the-files:
     runs-on: ubuntu-latest
     steps:
-
       - name: Get the files
         run: |
           ls -al  
 
-  get-the-multine:
+  get-the-multiline:
     runs-on: ubuntu-latest
     steps:
-
       - name: Run a multi-line script
         if: always()
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
 
-          - name: Check Java Version
-          run: |
-            java -version
+      - name: Check Java Version
+        run: |
+          java -version
 
   build-java:
     runs-on: ubuntu-latest
     steps:
-            
-        - name: Gradle Build
-          run: |
-            bash gradlew build
+      - name: Gradle Build
+        run: |
+          bash gradlew build
   
-        - name: Docker version
-          run: |
-            docker --version
-            docker
-            docker images -a  
+      - name: Docker version
+        run: |
+          docker --version
+          docker
+          docker images -a  
   
-        - name: Docker Login
-          run: echo "${{ secrets.dockerhubpassword }}" | docker login -u ${{ secrets.dockerhubusername }} --password-stdin
+      - name: Docker Login
+        run: echo "${{ secrets.dockerhubpassword }}" | docker login -u ${{ secrets.dockerhubusername }} --password-stdin
   
-        - name: Docker image Tag
-          env:
-            IMAGE_TAG: ${{ github.sha }}
-          run: |
-            docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
-            docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG}
+      - name: Docker image Tag
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
+          docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG}
 
   login-azure-aks-manifests:
     runs-on: ubuntu-latest
     steps:
-
       - name: Log in with the Azure CLI
         uses: azure/login@v1
         with:
