@@ -12,6 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: List files after checkout (Debugging Step)
+        run: |
+          echo "Listing files in root directory after checkout:"
+          ls -al
 
       - name: Run a one-line script
         run: echo Hello, world!
@@ -52,14 +59,14 @@ jobs:
       - name: Docker version
         run: |
           docker --version
-          docker
           docker images -a  
 
       - name: Docker Login
         run: echo "${{ secrets.dockerhubpassword }}" | docker login -u ${{ secrets.dockerhubusername }} --password-stdin
 
-      - name: Verify dockerfile location
+      - name: Verify Dockerfile location
         run: |
+          echo "Checking if Dockerfile exists in root directory:"
           if [ -f ./Dockerfile ]; then
             echo "Dockerfile found in the root directory."
           else
