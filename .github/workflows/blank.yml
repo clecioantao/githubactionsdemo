@@ -63,16 +63,23 @@ jobs:
           docker
           docker images -a  
 
-      - name: Docker Build
-        run: |
-          docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:latest .
-      
       - name: Docker Login
         run: echo "${{ secrets.dockerhubpassword }}" | docker login -u ${{ secrets.dockerhubusername }} --password-stdin
-      
-      - name: Docker Push
+
+      - name: Docker image Tag
+        env:
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:latest
+          docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
+          docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG}
+
+      # - name: Docker Build
+      #   run: |
+      #     docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:latest .
+      
+      # - name: Docker Push
+      #   run: |
+      #     docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:latest
 
 
 
