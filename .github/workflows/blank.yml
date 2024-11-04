@@ -15,68 +15,29 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: List files after checkout (Debugging Step)
+      - name: Show current directory and list files
         run: |
-          echo "Listing files in root directory after checkout:"
+          echo "Current directory: $(pwd)"
+          echo "Contents of the current directory:"
           ls -al
 
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-  get-the-files:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: running a custom script
+      - name: Set permissions on Dockerfile
         run: |
-          ls -al
-
-  get-the-multilinetask:
-    needs: 
-      - build
-      - get-the-files
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run a multi-line script
-        if: always()
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-
-      - name: Check Java Version
-        run: |
-          java -version
-
-      - name: Install Gradle
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gradle
-
-      - name: Gradle Build
-        run: |
-          gradle build
-
-      - name: Docker version
-        run: |
-          docker --version
-          docker images -a  
-
-      - name: Docker Login
-        run: echo "${{ secrets.dockerhubpassword }}" | docker login -u ${{ secrets.dockerhubusername }} --password-stdin
+          chmod +r Dockerfile
 
       - name: Verify Dockerfile location
         run: |
           echo "Checking if Dockerfile exists in root directory:"
-          if [ -f ./Dockerfile ]; then
+          if [ -f $(pwd)/Dockerfile ]; then
             echo "Dockerfile found in the root directory."
           else
             echo "Dockerfile not found in the root directory."
             exit 1
           fi
-          
+
       - name: Docker image Tag
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
+          docker build -f $(pwd)/Dockerfile -t ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG} .
           docker push ${{ secrets.dockerhubusername }}/demo-kotlin2.0:${IMAGE_TAG}
