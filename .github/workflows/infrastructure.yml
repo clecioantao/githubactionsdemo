@@ -75,7 +75,6 @@ jobs:
           tf_actions_subcommand: validate
           tf_actions_working_dir: ./terraform
 
-
       - name: 'Terraform plan'
         uses: hashicorp/terraform-github-actions@master
         with:
@@ -83,8 +82,21 @@ jobs:
           tf_actions_subcommand: plan
           tf_actions_working_dir: ./terraform
 
+      - name: 'Terraform apply'
+        if: github.ref == 'refs/heads/main'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 1.5.6
+          tf_actions_subcommand: apply
+          tf_actions_working_dir: ./terraform
 
-
+      - name: 'Terraform destroy'
+        if: github.ref == 'refs/heads/main'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 1.5.6
+          tf_actions_subcommand: apply
+          tf_actions_working_dir: ./terraform
 
 
 
