@@ -26,21 +26,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: 'Install pre reqs'
-        run: |
-          curl -SL "https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip" -o terraform.zip
-          rm -f /usr/local/bin/terraform # Remove any existing terraform binary in /usr/local/bin
-          unzip -o terraform.zip -d /tmp # Extract to a temporary directory
-          sudo mv /tmp/terraform /usr/local/bin/
-          terraform --version
-          rm -rf terraform.zip
+      # - name: 'Install pre reqs'
+      #   run: |
+      #     curl -SL "https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip" -o terraform.zip
+      #     rm -f /usr/local/bin/terraform # Remove any existing terraform binary in /usr/local/bin
+      #     unzip -o terraform.zip -d /tmp # Extract to a temporary directory
+      #     sudo mv /tmp/terraform /usr/local/bin/
+      #     terraform --version
+      #     rm -rf terraform.zip
 
-      - name: 'Install TFLint'
-        run: |
-          wget https://github.com/terraform-linters/tflint/releases/download/v0.48.0/tflint_linux_amd64.zip
-          unzip tflint_linux_amd64.zip
-          mv tflint /usr/local/bin/
-          tflint --version
+      # - name: 'Install TFLint'
+      #   run: |
+      #     wget https://github.com/terraform-linters/tflint/releases/download/v0.48.0/tflint_linux_amd64.zip
+      #     unzip tflint_linux_amd64.zip
+      #     mv tflint /usr/local/bin/
+      #     tflint --version
 
       # - name: 'Terraform Init'
       #   run: terraform init
