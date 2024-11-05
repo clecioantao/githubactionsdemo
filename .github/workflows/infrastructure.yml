@@ -26,6 +26,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Log in with the Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name:  Run AZ Command
         run: |
           az account show
