@@ -42,19 +42,45 @@ jobs:
           mv tflint /usr/local/bin/
           tflint --version
 
-      - name: 'Terraform Init'
-        run: terraform init
+      # - name: 'Terraform Init'
+      #   run: terraform init
 
-      - name: 'Terraform Validate'
-        run: terraform validate
+      # - name: 'Terraform Validate'
+      #   run: terraform validate
 
-      - name: 'Terraform Plan'
-        run: terraform plan
+      # - name: 'Terraform Plan'
+      #   run: terraform plan
 
-      - name: 'Terraform Apply'
-        run: terraform apply -auto-approve
+      # - name: 'Terraform Apply'
+      #   run: terraform apply -auto-approve
 
+      - name: 'Terraform format'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14
+          tf_actions_subcommand: fmt
+          tf_actions_working_dir: ./terraform
 
+      - name: 'Terraform validate'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14
+          tf_actions_subcommand: validate
+          tf_actions_working_dir: ./terraform
+
+      - name: 'Terraform init'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14
+          tf_actions_subcommand: init
+          tf_actions_working_dir: ./terraform
+
+      - name: 'Terraform plan'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14
+          tf_actions_subcommand: plan
+          tf_actions_working_dir: ./terraform
 
 
 
